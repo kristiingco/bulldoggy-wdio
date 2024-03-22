@@ -7,6 +7,13 @@ class ReminderLists {
     }
 
     /**
+     * Returns selected list from the reminders page
+     */
+    public get selectedList() {
+        return $(".reminders-list-list .reminder-row.selected-list");
+    }
+
+    /**
      * Returns a new row for a new list from the reminders page
      */
     public get newListRow() {
@@ -55,10 +62,22 @@ class ReminderLists {
         await this.createListButton.click();
     }
 
+    /**
+     * Creates a new list
+     * @param listName - name for newly created list
+     */
     public async createNewList(listName: string) {
         await this.clickNewListRow();
         await this.newListInput.setValue(listName);
         await this.clickCreateListButton();
+    }
+
+    /**
+     * Asserts a new list has been created correctly
+     * @param listName - name for newly created list
+     */
+    public async assertNewListCreated(listName: string) {
+        await expect(this.selectedList).toHaveText(listName);
     }
 }
 
