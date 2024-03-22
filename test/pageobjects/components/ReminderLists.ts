@@ -104,6 +104,17 @@ class ReminderLists {
     }
 
     /**
+     * Deletes a list
+     * @param listName - name of list to delete
+     */
+    public async deleteList(listName: string) {
+        const listToDelete = await $(
+            `//div[contains(@class, 'reminder-row')][p[contains(text(), "${listName}")]]`
+        );
+        await listToDelete.$("img:nth-child(3)").click();
+    }
+
+    /**
      * Deletes all created lists
      */
     public async deleteAllLists() {
@@ -126,6 +137,14 @@ class ReminderLists {
      */
     public async assertNewListCreated(listName: string) {
         await expect(this.selectedList).toHaveText(listName);
+    }
+
+    /**
+     * Asserts a list does not exist
+     * @param listName - name for list that shoild not exist
+     */
+    public async assertListDoesNotExist(listName: string) {
+        await expect(this.getListByName(listName)).not.toExist();
     }
 }
 

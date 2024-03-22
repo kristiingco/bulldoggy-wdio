@@ -29,6 +29,12 @@ describe("List Management", () => {
         await ReminderItemList.assertActiveListName("Books to Read");
     });
 
+    it("should successfully delete a list", async () => {
+        await ReminderLists.createNewList("Groceries");
+        await ReminderLists.deleteList("Groceries");
+        await ReminderLists.assertListDoesNotExist("Groceries");
+    });
+
     afterEach(async () => {
         await ReminderLists.deleteAllLists();
     });
