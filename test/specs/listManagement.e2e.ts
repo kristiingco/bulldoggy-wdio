@@ -10,6 +10,16 @@ describe("List Management", () => {
     it("should successfully create a new list", async () => {
         await ReminderLists.createNewList("Groceries");
         await ReminderLists.assertNewListCreated("Groceries");
-        browser.pause(5000);
+    });
+
+    it("should successfully switch between two lists", async () => {
+        await ReminderLists.createNewList("Groceries");
+        await ReminderLists.createNewList("To Watch");
+        await ReminderLists.clickListWithName("Groceries");
+        await ReminderLists.assertSelectedList("Groceries");
+    });
+
+    afterEach(async () => {
+        await ReminderLists.deleteAllLists();
     });
 });

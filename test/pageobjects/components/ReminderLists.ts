@@ -3,7 +3,7 @@ class ReminderLists {
      * Returns a list of lists from the reminders page
      */
     public get lists() {
-        return $$(".reminders-list-list .reminder-row");
+        return $$(".reminders-list-list .reminder-row:not(.light-gray-text)");
     }
 
     /**
@@ -49,6 +49,22 @@ class ReminderLists {
     }
 
     /**
+     * Returns a list with a specific title from the reminders page
+     * @param listName - name of list to select
+     */
+    public async getListByName(listName: string) {
+        return await $(`//p[contains(text(), "${listName}")]`);
+    }
+
+    /**
+     * Clicks on a list with a specific title from the reminders page
+     * @param listName - name of list to select
+     */
+    public async clickListWithName(listName: string) {
+        await (await this.getListByName(listName)).click();
+    }
+
+    /**
      * Clicks on new list row from the reminders page
      */
     public async clickNewListRow() {
@@ -70,6 +86,20 @@ class ReminderLists {
         await this.clickNewListRow();
         await this.newListInput.setValue(listName);
         await this.clickCreateListButton();
+    }
+
+    public async deleteAllLists() {
+        await this.lists.forEach(async (element) => {
+            await element.$("img:nth-child(3)").click();
+        });
+    }
+
+    /**
+     * Asserts a list with the given title has been selected
+     * @param listName - expected name for selected list
+     */
+    public async assertSelectedList(listName: string) {
+        await expect(this.selectedList).toHaveText(listName);
     }
 
     /**
