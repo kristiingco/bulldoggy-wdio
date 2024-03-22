@@ -1,4 +1,5 @@
 import LoginPage from "../pageobjects/LoginPage";
+import ReminderItemList from "../pageobjects/components/ReminderItemList";
 import ReminderLists from "../pageobjects/components/ReminderLists";
 
 describe("List Management", () => {
@@ -10,6 +11,7 @@ describe("List Management", () => {
     it("should successfully create a new list", async () => {
         await ReminderLists.createNewList("Groceries");
         await ReminderLists.assertNewListCreated("Groceries");
+        await ReminderItemList.assertActiveListName("Groceries");
     });
 
     it("should successfully switch between two lists", async () => {
@@ -17,6 +19,7 @@ describe("List Management", () => {
         await ReminderLists.createNewList("To Watch");
         await ReminderLists.clickListWithName("Groceries");
         await ReminderLists.assertSelectedList("Groceries");
+        await ReminderItemList.assertActiveListName("Groceries");
     });
 
     afterEach(async () => {
