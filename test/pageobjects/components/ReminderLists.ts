@@ -30,7 +30,7 @@ class ReminderLists {
     /**
      * Returns button for creating a list
      */
-    public get createListButton() {
+    public get confirmButton() {
         return $(".reminder-row-with-input > img:nth-child(2)");
     }
 
@@ -72,10 +72,10 @@ class ReminderLists {
     }
 
     /**
-     * Clicks on creating a new list button from the reminders page
+     * Clicks on confirm button from the reminders page
      */
-    public async clickCreateListButton() {
-        await this.createListButton.click();
+    public async clickConfirmButton() {
+        await this.confirmButton.click();
     }
 
     /**
@@ -85,9 +85,27 @@ class ReminderLists {
     public async createNewList(listName: string) {
         await this.clickNewListRow();
         await this.newListInput.setValue(listName);
-        await this.clickCreateListButton();
+        await this.clickConfirmButton();
     }
 
+    /**
+     * Edits a list
+     * @param oldListName - name of list to edit
+     * @param newListName - new name of list to edit
+     */
+    public async editList(oldListName: string, newListName: string) {
+        const listToEdit = await $(
+            `//div[contains(@class, 'reminder-row')][p[contains(text(), "${oldListName}")]]`
+        );
+        await listToEdit.$("img:nth-child(2)").click();
+        const editNameInput = await $("[name='new_name']");
+        await editNameInput.setValue(newListName);
+        this.clickConfirmButton();
+    }
+
+    /**
+     * Deletes all created lists
+     */
     public async deleteAllLists() {
         await this.lists.forEach(async (element) => {
             await element.$("img:nth-child(3)").click();
