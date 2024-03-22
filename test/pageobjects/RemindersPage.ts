@@ -2,6 +2,13 @@ import AbstractPage from "./AbstractPage";
 
 class RemindersPage extends AbstractPage {
     /**
+     * Returns reminder container from the reminders page
+     */
+    public get remindersContent() {
+        return $(".reminders-content");
+    }
+
+    /**
      * Returns logout button from the reminders page
      */
     public get logoutButton() {
@@ -13,6 +20,10 @@ class RemindersPage extends AbstractPage {
      */
     public async clickLogout() {
         await this.logoutButton.click();
+    }
+
+    public async assertRemindersPageIsVisible() {
+        await expect(this.remindersContent).toBeDisplayed();
     }
 }
 
