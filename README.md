@@ -1,4 +1,4 @@
-# Conduit - E2E Testing with Cypress
+# Bulldoggy - E2E Testing with WebdriverIO
 
 ## Project description
 
