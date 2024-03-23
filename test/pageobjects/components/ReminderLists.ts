@@ -28,16 +28,16 @@ class ReminderLists {
     }
 
     /**
-     * Returns button for creating a list
+     * Returns button for creating or editing a list
      */
     public get confirmButton() {
         return $(".reminder-row-with-input > img:nth-child(2)");
     }
 
     /**
-     * Returns button for canceling list creation
+     * Returns button for canceling list creation or editing
      */
-    public get cancelListCreationButton() {
+    public get cancelButton() {
         return $(".reminder-row-with-input > img:nth-child(3)");
     }
 
