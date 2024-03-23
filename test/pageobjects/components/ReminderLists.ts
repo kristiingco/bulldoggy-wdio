@@ -42,18 +42,13 @@ class ReminderLists {
     }
 
     /**
-     * Returns a list with a specific index from the reminders page
-     */
-    public async getListByIndex(index: number) {
-        return await this.lists[index];
-    }
-
-    /**
      * Returns a list with a specific title from the reminders page
      * @param listName - name of list to select
      */
     public async getListByName(listName: string) {
-        return await $(`//p[contains(text(), "${listName}")]`);
+        return await $(
+            `//div[contains(@class, 'reminder-row')][p[contains(text(), "${listName}")]]`
+        );
     }
 
     /**
@@ -94,9 +89,7 @@ class ReminderLists {
      * @param newListName - new name of list to edit
      */
     public async editList(oldListName: string, newListName: string) {
-        const listToEdit = await $(
-            `//div[contains(@class, 'reminder-row')][p[contains(text(), "${oldListName}")]]`
-        );
+        const listToEdit = await this.getListByName(oldListName);
         await listToEdit.$("img:nth-child(2)").click();
         const editNameInput = await $("[name='new_name']");
         await editNameInput.setValue(newListName);
@@ -108,9 +101,7 @@ class ReminderLists {
      * @param listName - name of list to delete
      */
     public async deleteList(listName: string) {
-        const listToDelete = await $(
-            `//div[contains(@class, 'reminder-row')][p[contains(text(), "${listName}")]]`
-        );
+        const listToDelete = await this.getListByName(listName);
         await listToDelete.$("img:nth-child(3)").click();
     }
 
@@ -128,7 +119,7 @@ class ReminderLists {
      * @param listName - expected name for selected list
      */
     public async assertSelectedList(listName: string) {
-        await expect(this.selectedList).toHaveText(listName);
+        await expect(this.selectedList.$("p")).toHaveText(listName);
     }
 
     /**
@@ -136,7 +127,7 @@ class ReminderLists {
      * @param listName - name for newly created list
      */
     public async assertNewListCreated(listName: string) {
-        await expect(this.selectedList).toHaveText(listName);
+        await expect(this.selectedList.$("p")).toHaveText(listName);
     }
 
     /**

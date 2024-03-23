@@ -31,6 +31,7 @@ describe("List Management", () => {
 
     it("should successfully delete a list", async () => {
         await ReminderLists.createNewList("Groceries");
+        await ReminderLists.createNewList("To Watch");
         await ReminderLists.deleteList("Groceries");
         await ReminderLists.assertListDoesNotExist("Groceries");
     });
