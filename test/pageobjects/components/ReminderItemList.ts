@@ -88,6 +88,15 @@ class ReminderItemList {
     }
 
     /**
+     * Deletes an existing reminder
+     * @param reminder - name of reminder to edit
+     */
+    public async deleteReminder(reminder: string) {
+        const reminderToDelete = await this.getReminderByName(reminder);
+        await reminderToDelete.$("img:nth-child(3)").click();
+    }
+
+    /**
      * Completes reminder
      * @param reminder - name of reminder to complete
      */
@@ -101,6 +110,14 @@ class ReminderItemList {
      */
     public async assertReminderExists(reminder: string) {
         await expect(this.getReminderByName(reminder)).toExist();
+    }
+
+    /**
+     * Asserts a reminder with the given name does not exist
+     * @param reminder - name of reminder expected to not exist
+     */
+    public async assertReminderDoesNotExist(reminder: string) {
+        await expect(this.getReminderByName(reminder)).not.toExist();
     }
 
     /**

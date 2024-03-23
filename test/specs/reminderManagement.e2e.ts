@@ -21,11 +21,18 @@ describe("Reminder Management", () => {
         await ReminderItemList.assertReminderCompleted("Bread");
     });
 
-    it.only("should successfully edit a reminder", async () => {
+    it("should successfully edit a reminder", async () => {
         await ReminderLists.createNewList("Groceries");
         await ReminderItemList.createNewReminder("Milk");
         await ReminderItemList.editReminder("Milk", "Yogurt");
         await ReminderItemList.assertReminderExists("Yogurt");
+    });
+
+    it("should successfully delete a reminder", async () => {
+        await ReminderLists.createNewList("Groceries");
+        await ReminderItemList.createNewReminder("Milk");
+        await ReminderItemList.deleteReminder("Milk");
+        await ReminderItemList.assertReminderDoesNotExist("Milk");
     });
 
     afterEach(async () => {
