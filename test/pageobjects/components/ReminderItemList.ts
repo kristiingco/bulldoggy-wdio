@@ -42,6 +42,16 @@ class ReminderItemList {
     }
 
     /**
+     * Gets reminder by a specified name
+     * @param reminder - name of reminder to get
+     */
+    public async getReminderByName(reminder: string) {
+        return $(
+            `//div[contains(@class, 'reminder-row')][p[contains(text(), "${reminder}")]]`
+        );
+    }
+
+    /**
      * Creates a new reminder in the active list
      * @param reminder - reminder to add to active list
      */
@@ -52,6 +62,14 @@ class ReminderItemList {
     }
 
     /**
+     * Completes reminder
+     * @param reminder - name of reminder to complete
+     */
+    public async completeReminder(reminder: string) {
+        (await this.getReminderByName(reminder)).$("p").click();
+    }
+
+    /**
      * Asserts a new reminder has been created with the expected name
      * @param reminder - expected name of reminder
      */
@@ -59,6 +77,12 @@ class ReminderItemList {
         const newReminderText =
             this.allReminders[(await this.allReminders.length) - 1].$("p");
         await expect(newReminderText).toHaveText(reminder);
+    }
+
+    public async assertReminderCompleted(reminder: string) {
+        await expect(this.getReminderByName(reminder)).toHaveElementClass(
+            expect.stringContaining("completed")
+        );
     }
 
     /**
