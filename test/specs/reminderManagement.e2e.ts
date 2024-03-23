@@ -1,4 +1,5 @@
 import LoginPage from "../pageobjects/LoginPage";
+import ReminderItemList from "../pageobjects/components/ReminderItemList";
 import ReminderLists from "../pageobjects/components/ReminderLists";
 
 describe("Reminder Management", () => {
@@ -9,6 +10,8 @@ describe("Reminder Management", () => {
 
     it("should successfully create a reminder", async () => {
         await ReminderLists.createNewList("Groceries");
+        await ReminderItemList.createNewReminder("Eggs");
+        await ReminderItemList.assertNewReminder("Eggs");
     });
 
     afterEach(async () => {
