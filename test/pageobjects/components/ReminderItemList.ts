@@ -28,6 +28,13 @@ class ReminderItemList {
     }
 
     /**
+     * Returns edit reminder field from reminders page
+     */
+    public get editReminderInput() {
+        return $("[name='new_description']");
+    }
+
+    /**
      * Returns confirm button for reminder creation or editing
      */
     public get confirmButton() {
@@ -62,11 +69,31 @@ class ReminderItemList {
     }
 
     /**
+     * Edits an existing reminder
+     * @param oldReminder - name of existing reminder to edit
+     * @param newReminder - new name of reminder
+     */
+    public async editReminder(oldReminder: string, newReminder: string) {
+        const reminderToEdit = await this.getReminderByName(oldReminder);
+        await reminderToEdit.$("img:nth-child(2)").click();
+        await this.editReminderInput.setValue(newReminder);
+        await this.confirmButton.click();
+    }
+
+    /**
      * Completes reminder
      * @param reminder - name of reminder to complete
      */
     public async completeReminder(reminder: string) {
         (await this.getReminderByName(reminder)).$("p").click();
+    }
+
+    /**
+     * Asserts a reminder with the given name exists
+     * @param reminder - name of reminder expected to exist
+     */
+    public async assertReminderExists(reminder: string) {
+        await expect(this.getReminderByName(reminder)).toExist();
     }
 
     /**
@@ -79,6 +106,10 @@ class ReminderItemList {
         await expect(newReminderText).toHaveText(reminder);
     }
 
+    /**
+     * Asserts a reminder is completed
+     * @param reminder - name of reminder to complete
+     */
     public async assertReminderCompleted(reminder: string) {
         await expect(this.getReminderByName(reminder)).toHaveElementClass(
             expect.stringContaining("completed")
