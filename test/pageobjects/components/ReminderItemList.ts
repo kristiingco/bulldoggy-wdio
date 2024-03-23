@@ -49,6 +49,13 @@ class ReminderItemList {
     }
 
     /**
+     * Clicks on confirm button
+     */
+    public async clickConfirmButton() {
+        await this.confirmButton.click();
+    }
+
+    /**
      * Gets reminder by a specified name
      * @param reminder - name of reminder to get
      */
@@ -65,7 +72,7 @@ class ReminderItemList {
     public async createNewReminder(reminder: string) {
         await this.newReminderRow.click();
         await this.newReminderInput.setValue(reminder);
-        await this.confirmButton.click();
+        await this.clickConfirmButton();
     }
 
     /**
@@ -77,7 +84,7 @@ class ReminderItemList {
         const reminderToEdit = await this.getReminderByName(oldReminder);
         await reminderToEdit.$("img:nth-child(2)").click();
         await this.editReminderInput.setValue(newReminder);
-        await this.confirmButton.click();
+        await this.clickConfirmButton();
     }
 
     /**
